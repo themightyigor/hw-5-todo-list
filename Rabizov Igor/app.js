@@ -1,7 +1,7 @@
 function TodoModel() {
   this.todos = JSON.parse(localStorage.getItem('todos')) || [];
   this.filters = ['All', 'Active', 'Completed'];
-  this.activeFilter = null;
+  this.activeFilter = this.filters[1];
 }
 
 TodoModel.prototype._updateLocalStorage = function() {
@@ -89,10 +89,15 @@ function TodoView(todosModel) {
   this.todosModel.filters.forEach(function(filter) {
     var label = self.createElement('label');
     var button = self.createElement('input');
-
+    var activeFilter = self.todosModel.activeFilter;
     button.type = 'radio';
     button.id = filter;
     button.name = 'status';
+
+    if (filter === activeFilter) {
+      button.checked = true;
+    }
+
     var span = self.createElement('span');
     span.textContent = filter;
     label.append(button, span);
